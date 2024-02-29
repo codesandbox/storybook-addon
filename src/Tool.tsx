@@ -13,9 +13,6 @@ const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
 export const Tool = memo(function MyAddonSelector() {
   const api = useStorybookApi();
   const [storySource, setStorySource] = useState();
-  const story = api.getCurrentStoryData();
-
-  console.log(story);
 
   useEffect(() => {
     api

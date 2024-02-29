@@ -10,8 +10,7 @@ import { Tab } from "./Tab";
  */
 
 // Register the addon
-addons.register(ADDON_ID, (...props) => {
-  console.log(props);
+addons.register(ADDON_ID, () => {
   // Register the tool
   addons.add(TOOL_ID, {
     type: types.TOOL,
