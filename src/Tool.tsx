@@ -1,37 +1,36 @@
-import React, { memo, useCallback, useEffect } from "react";
-import { useGlobals, useStorybookApi } from "@storybook/manager-api";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import {
+  useGlobals,
+  useParameter,
+  useStorybookApi,
+} from "@storybook/manager-api";
 import { Icons, IconButton } from "@storybook/components";
-import { ADDON_ID, PARAM_KEY, TOOL_ID } from "./constants";
+import { TOOL_ID } from "./constants";
+
+const ADDON_ID = "storybook/docs";
+const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
 
 export const Tool = memo(function MyAddonSelector() {
-  const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
+  const [storySource, setStorySource] = useState();
+  const story = api.getCurrentStoryData();
 
-  const isActive = [true, "true"].includes(globals[PARAM_KEY]);
-
-  const toggleMyTool = useCallback(() => {
-    updateGlobals({
-      [PARAM_KEY]: !isActive,
-    });
-  }, [isActive]);
+  console.log(story);
 
   useEffect(() => {
-    api.setAddonShortcut(ADDON_ID, {
-      label: "Toggle Measure [O]",
-      defaultShortcut: ["O"],
-      actionName: "outline",
-      showInMenu: false,
-      action: toggleMyTool,
-    });
-  }, [toggleMyTool, api]);
+    api
+      .getChannel()
+      .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
+  }, []);
+
+  const files = {
+    "/App.js": `export default App = () => {
+    return <div>${storySource}</div>;
+}`,
+  };
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Enable my addon"
-      onClick={toggleMyTool}
-    >
+    <IconButton key={TOOL_ID} title="Enable my addon">
       <Icons icon="lightning" />
     </IconButton>
   );
