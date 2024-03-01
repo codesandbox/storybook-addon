@@ -1,3 +1,4 @@
+import React from "react";
 import { addons, types } from "@storybook/manager-api";
 import { ADDON_ID, TOOL_ID, PANEL_ID, TAB_ID } from "./constants";
 import { Tool } from "./Tool";
@@ -10,12 +11,12 @@ import { Tab } from "./Tab";
  */
 
 // Register the addon
-addons.register(ADDON_ID, () => {
+addons.register(ADDON_ID, (api) => {
   // Register the tool
   addons.add(TOOL_ID, {
     type: types.TOOL,
     title: "My addon",
     match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
-    render: Tool,
+    render: () => <Tool api={api} />,
   });
 });

@@ -15,17 +15,6 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [
-    (Story, parms) => {
-      console.log(parms);
-      return (
-        <div style={{ margin: "3em" }}>
-          {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
-          <Story />
-        </div>
-      );
-    },
-  ],
 };
 
 export default preview;

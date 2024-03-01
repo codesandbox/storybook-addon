@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "CSB",
   "keywords": [
-    "storybook-addons", "storybook-addons"
+    "storybook-addons",
+    "storybook-addons"
   ],
   "repository": {
     "type": "git",
@@ -89,7 +90,7 @@
       "src/index.ts"
     ],
     "managerEntries": [
-      "src/manager.ts"
+      "src/manager.tsx"
     ],
     "previewEntries": [
       "src/preview.ts"
@@ -104,5 +105,8 @@
       "react"
     ],
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
+  },
+  "dependencies": {
+    "@storybook/addon-storysource": "^7.6.17"
   }
 }

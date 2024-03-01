@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import {
+  useArgs,
   useGlobals,
   useParameter,
   useStorybookApi,
@@ -10,8 +11,7 @@ import { TOOL_ID } from "./constants";
 const ADDON_ID = "storybook/docs";
 const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
 
-export const Tool = memo(function MyAddonSelector() {
-  const api = useStorybookApi();
+export const Tool = memo(function MyAddonSelector({ api }) {
   const [storySource, setStorySource] = useState();
 
   useEffect(() => {
@@ -21,9 +21,12 @@ export const Tool = memo(function MyAddonSelector() {
   }, []);
 
   const files = {
-    "/App.js": `export default App = () => {
-    return <div>${storySource}</div>;
-}`,
+    "/App.js": `
+import Button from "./Button";
+
+export default App = () => {
+      return <div>${storySource}</div>;
+  }`,
   };
 
   return (
