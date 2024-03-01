@@ -30,7 +30,7 @@ export default App = () => {
   };
 
   return (
-    <IconButton key={TOOL_ID} title="Enable my addon">
+    <IconButton key={TOOL_ID} title="Export to CodeSandbox">
       <Icons icon="lightning" />
     </IconButton>
   );
