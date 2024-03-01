@@ -1,18 +1,25 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import "@radix-ui/themes/styles.css";
 
-import { Button } from "./Button";
+import { Button } from "@radix-ui/themes";
 
 const meta: Meta<typeof Button> = {
   title: "Example/Button",
   component: Button,
   argTypes: {
-    backgroundColor: { control: "color" },
+    variant: {
+      options: ["classic", "soft", "outline"],
+      control: { type: "radio" },
+    },
+    size: {
+      options: ["1", "2", "3", "4"],
+      control: { type: "radio" },
+    },
   },
   parameters: {
     codesandbox: {
       mapComponent: {
-        "@codesandbox/react-vite/src/Button": ["Button"],
-        "@codesandbox/common": ["Box", "Stack"],
+        "@radix-ui/themes": ["Button"],
       },
     },
   },
@@ -23,27 +30,22 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    primary: true,
-    label: "Button",
+    variant: "classic",
+    children: "Button",
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: "Button",
+    variant: "soft",
+    children: "Button",
   },
 };
 
 export const Large: Story = {
   args: {
-    size: "large",
-    label: "Button",
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "small",
-    label: "Button",
+    variant: "outline",
+    size: "4",
+    children: "Button",
   },
 };
