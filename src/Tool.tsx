@@ -13,6 +13,9 @@ const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
 
 export const Tool = memo(function MyAddonSelector({ api }) {
   const [storySource, setStorySource] = useState();
+  const codesandboxParameters:
+    | { mapComponent: Record<string, string[]> }
+    | undefined = useParameter("codesandbox");
 
   useEffect(() => {
     api
@@ -20,14 +23,22 @@ export const Tool = memo(function MyAddonSelector({ api }) {
       .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
   }, []);
 
+  let imports = ``;
+  for (const [key, value] of Object.entries(
+    codesandboxParameters?.mapComponent ?? {},
+  )) {
+    imports += `import { ${value.join(", ")} } from '${key}';\n`;
+  }
+
   const files = {
     "/App.js": `
-import Button from "./Button";
-
+${imports}
 export default App = () => {
-      return <div>${storySource}</div>;
-  }`,
+  return ${storySource};
+}`,
   };
+
+  console.log(files);
 
   return (
     <IconButton key={TOOL_ID} title="Export to CodeSandbox">

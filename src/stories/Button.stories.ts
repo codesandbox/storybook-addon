@@ -6,10 +6,15 @@ const meta: Meta<typeof Button> = {
   title: "Example/Button",
   component: Button,
   argTypes: {
-    sandboxComponentMap: {
-      "@codesandbox/react-vite/src/Button": ["Button"],
-    },
     backgroundColor: { control: "color" },
+  },
+  parameters: {
+    codesandbox: {
+      mapComponent: {
+        "@codesandbox/react-vite/src/Button": ["Button"],
+        "@codesandbox/common": ["Box", "Stack"],
+      },
+    },
   },
 };
 
