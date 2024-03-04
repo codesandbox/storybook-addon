@@ -1,18 +1,50 @@
 import React, { memo, useEffect, useState } from "react";
-import { API, useParameter } from "@storybook/manager-api";
-import { Icons, Button } from "@storybook/components";
-import { TOOL_ID } from "./constants";
+import { API, useAddonState, useParameter } from "@storybook/manager-api";
+import { Button } from "@storybook/components";
 import LZString from "lz-string";
+import { BoxIcon } from "@storybook/icons";
 
-const ADDON_ID = "storybook/docs";
-const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
+import { TOOL_ID } from "./constants";
 
-export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
+const SNIPPET_RENDERED = `storybook/docs/snippet-rendered`;
+
+type CSBParameters =
+  | {
+      /**
+       * CodeSandbox workspace id where sandbox will be created.
+       * @required
+       */
+      workspaceId: string;
+
+      /**
+       * Key/value mapping of components to import in the sandbox
+       * @optional
+       */
+      mapComponent?: Record<string, string[]>;
+
+      /**
+       * List of dependencies to install in the sandbox
+       * @optional
+       */
+      dependencies?: Record<string, string>;
+
+      /**
+       * All required providers to run the sandbox properly, such as
+       * themes, i18n, store, and so on.
+       * @optional
+       */
+      provider?: string;
+    }
+  | undefined;
+
+export const CodeSandboxTool = memo(function MyAddonSelector({
+  api,
+}: {
+  api: API;
+}) {
   const formRef = React.useRef<HTMLFormElement>(null);
   const [storySource, setStorySource] = useState();
-  const codesandboxParameters:
-    | { mapComponent: Record<string, string[]> }
-    | undefined = useParameter("codesandbox");
+  const codesandboxParameters: CSBParameters = useParameter("codesandbox");
 
   useEffect(() => {
     api
@@ -20,13 +52,30 @@ export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
       .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
   }, []);
 
+  if (!codesandboxParameters || !storySource) {
+    return;
+  }
+
+  const options = {
+    activeFile: "/App.js",
+    workspaceId: codesandboxParameters.workspaceId,
+    mapComponent: codesandboxParameters.mapComponent ?? {},
+    dependencies: codesandboxParameters.dependencies ?? {},
+    provider:
+      codesandboxParameters.provider ??
+      `export default GenericProvider = ({ children }) => {
+  return children
+}`,
+  };
+
   let imports = ``;
-  for (const [key, value] of Object.entries(
-    codesandboxParameters?.mapComponent ?? {},
-  )) {
+  for (const [key, value] of Object.entries(options.mapComponent)) {
     imports += `import { ${value.join(", ")} } from '${key}';\n`;
   }
 
+  /**
+   * Template
+   */
   const files = {
     "/package.json": {
       code: JSON.stringify({
@@ -34,25 +83,27 @@ export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
           react: "^18.0.0",
           "react-dom": "^18.0.0",
           "react-scripts": "^5.0.0",
-          "@radix-ui/themes": "latest",
+          ...options.dependencies,
         },
         main: "/index.js",
       }),
     },
+    "/provider.js": {
+      code: options.provider,
+    },
     "/index.js": {
       code: `import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Theme } from "@radix-ui/themes";
-import '@radix-ui/themes/styles.css';
+import GenericProvider from "./provider";
 
 import App from "./App";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
-    <Theme>
+    <GenericProvider>
       <App />
-    </Theme>
+    </GenericProvider>
   </StrictMode>
 );
 `,
@@ -66,24 +117,11 @@ export default App = () => {
     },
   };
 
-  // const submit = () => {
-  //   const parameters = getParameters({ files });
-  //   const url = `https://codesandbox.io/api/v1/sandboxes/define?parameters=${parameters}&file=/App.js`;
-
-  //   window.open(url, "_blank");
-  // };
-
-  if (!storySource) {
-    return null;
-  }
-
-  const activeFile = "/App.js";
-
   const params = getFileParameters(files);
   const searchParams = new URLSearchParams({
     parameters: params,
     query: new URLSearchParams({
-      file: activeFile,
+      file: options.activeFile,
       utm_medium: "storybook",
     }).toString(),
   });
@@ -91,9 +129,9 @@ export default App = () => {
   return (
     <Button
       key={TOOL_ID}
-      disabled={!codesandboxParameters?.mapComponent}
+      disabled={!options.mapComponent}
       title={
-        codesandboxParameters?.mapComponent
+        options.mapComponent
           ? "Open in CodeSandbox"
           : "Missing component mapping"
       }
@@ -102,7 +140,7 @@ export default App = () => {
       <form
         action={CSB_URL}
         method="POST"
-        style={{ visibility: "hidden" }}
+        style={{ display: "none" }}
         target="_blank"
         ref={formRef}
       >
@@ -113,7 +151,7 @@ export default App = () => {
           ),
         )}
       </form>
-      <Icons icon="box" />
+      <BoxIcon />
       Open in CodeSandbox
     </Button>
   );
