@@ -1,13 +1,13 @@
 import { getParameters } from "codesandbox/lib/api/define";
 import React, { memo, useEffect, useState } from "react";
-import { useParameter } from "@storybook/manager-api";
-import { Icons, IconButton, Button } from "@storybook/components";
+import { API, useParameter } from "@storybook/manager-api";
+import { Icons, Button } from "@storybook/components";
 import { TOOL_ID } from "./constants";
 
 const ADDON_ID = "storybook/docs";
 const SNIPPET_RENDERED = `${ADDON_ID}/snippet-rendered`;
 
-export const Tool = memo(function MyAddonSelector({ api }) {
+export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
   const [storySource, setStorySource] = useState();
   const codesandboxParameters:
     | { mapComponent: Record<string, string[]> }
@@ -18,6 +18,10 @@ export const Tool = memo(function MyAddonSelector({ api }) {
       .getChannel()
       .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
   }, []);
+
+  if (!codesandboxParameters) {
+    return null;
+  }
 
   let imports = ``;
   for (const [key, value] of Object.entries(
@@ -64,18 +68,23 @@ export default App = () => {
 }`,
     },
   };
+  console.log(storySource);
 
   const submit = () => {
-    const parameters = getParameters({ files });
+    const parameters = getParameters({ files, file: "/App.js" });
     const url = `https://codesandbox.io/api/v1/sandboxes/define?parameters=${parameters}`;
 
     window.open(url, "_blank");
   };
 
+  if (!storySource) {
+    return null;
+  }
+
   return (
-    <Button key={TOOL_ID} title="Export to CodeSandbox" onClick={submit}>
+    <Button key={TOOL_ID} title="Open in CodeSandbox" onClick={submit}>
       <Icons icon="box" />
-      Export to CodeSandbox
+      Open in CodeSandbox
     </Button>
   );
 });
