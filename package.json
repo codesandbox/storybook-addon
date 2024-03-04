@@ -105,6 +105,6 @@
     "@radix-ui/themes": "^2.0.3",
     "@storybook/addon-docs": "^7.6.17",
     "@storybook/addon-storysource": "^7.6.17",
-    "codesandbox": "^2.2.3"
+    "lz-string": "^1.5.0"
   }
 }
