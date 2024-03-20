@@ -1,5 +1,5 @@
-<p align="center">
-<img alt="Storybook CodeSandbox Addon" src="https://github.com/codesandbox/sandpack/assets/4838076/464ec018-48e5-410b-aaca-c050a3a02743" width="500" />
+<p align="right">
+<img alt="Storybook CodeSandbox Addon" src="https://github.com/codesandbox/sandpack/assets/4838076/464ec018-48e5-410b-aaca-c050a3a02743" width="350" />
 </p>
 
 # Storybook CodeSandbox Addon
