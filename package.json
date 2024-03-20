@@ -1,9 +1,8 @@
 {
-  "name": "codesandbox-test-module",
+  "name": "@codesandbox/storybook-addon",
   "version": "0.0.0",
   "description": "CSB",
   "keywords": [
-    "storybook-addons",
     "storybook-addons"
   ],
   "repository": {
@@ -12,7 +11,7 @@
   },
   "type": "module",
   "license": "MIT",
-  "author": "codesandbox <danilo@codesandbox.io>",
+  "author": "CodeSandbox <danilo@codesandbox.io>",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -62,6 +61,7 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
+    "@radix-ui/themes": "^2.0.3",
     "auto": "^11.0.4",
     "boxen": "^7.1.1",
     "dedent": "^1.5.1",
@@ -87,9 +87,6 @@
     "managerEntries": [
       "src/manager.tsx"
     ],
-    "previewEntries": [
-      "src/preview.ts"
-    ],
     "nodeEntries": [
       "src/preset.ts"
     ]
@@ -102,7 +99,6 @@
     "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
   },
   "dependencies": {
-    "@radix-ui/themes": "^2.0.3",
     "@storybook/addon-docs": "^7.6.17",
     "@storybook/addon-storysource": "^7.6.17",
     "lz-string": "^1.5.0"
