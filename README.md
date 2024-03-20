@@ -12,42 +12,49 @@ To run the addon, you'll need to configure it in your Storybook's `.storybook/pr
 
 ```js
 // .storybook/preview.js
+import { Theme } from "@radix-ui/themes";
 
-codesandbox: {
-  /**
-   * CodeSandbox workspace id where the sandbox will be created.
-   * @required
-   */
-  workspaceId: CUSTOM_WORKSPACE_ID,
+const preview: Preview = {
+  parameters: {
+    codesandbox: {
+      /**
+       * CodeSandbox workspace id where the sandbox will be created.
+       * @required
+       */
+      workspaceId: CUSTOM_WORKSPACE_ID,
 
-  /**
-   * List of dependencies to install in the sandbox
-   * @optional
-   * 
-   * Example:
-   */
-  dependencies: {
-    "@radix-ui/themes": "latest",
+      /**
+       * List of dependencies to install in the sandbox
+       * @optional
+       *
+       * Example:
+       */
+      dependencies: {
+        "@radix-ui/themes": "latest",
+      },
+
+      /**
+       * All required providers to run the sandbox properly, such as
+       * themes, i18n, store, and so on.
+       * @optional
+       *
+       * Example:
+       */
+      provider: `import { Theme } from "@radix-ui/themes";
+        import '@radix-ui/themes/styles.css';
+
+        export default ThemeProvider = ({ children }) => {
+            return (
+                <Theme>
+                    {children}
+                </Theme>
+            ) 
+        }`,
+    },
   },
+};
 
-  /**
-   * All required providers to run the sandbox properly, such as
-   * themes, i18n, store, and so on.
-   * @optional
-   * 
-   * Example:
-   */
-  provider: `import { Theme } from "@radix-ui/themes";
-import '@radix-ui/themes/styles.css';
-
-export default ThemeProvider = ({ children }) => {
-  return (
-    <Theme>
-      {children}
-    </Theme>
-  ) 
-}`,
-},
+export default preview;
 ```
 
 Make sure to provide the necessary values for workspaceId and any additional dependencies or providers required for your specific setup.
