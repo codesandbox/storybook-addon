@@ -6,7 +6,16 @@
 
 The `@codesandbox/storybook-addon` is a Storybook addon that facilitates exporting the current story to CodeSandbox. It offers support for private dependencies, workspaces, and more.
 
+## Usage
+
+Once configured, you can use the "Open in CodeSandbox" button within your Storybook environment to export stories to CodeSandbox effortlessly.
+
 ## Configuration
+
+<details>
+  <summary>Storybook configuration (required)</summary>
+
+<br />
 
 To run the addon, you'll need to configure it in your Storybook's `.storybook/preview.js` file.
 
@@ -26,6 +35,8 @@ const preview: Preview = {
       /**
        * List of dependencies to install in the sandbox
        * @optional
+       * 
+       * TODO: not local components, but published packages
        *
        * Example:
        */
@@ -36,6 +47,10 @@ const preview: Preview = {
       /**
        * All required providers to run the sandbox properly, such as
        * themes, i18n, store, and so on.
+       * 
+       * 
+       * TODO: use the depednencies described above
+       * 
        * @optional
        *
        * Example:
@@ -44,11 +59,11 @@ const preview: Preview = {
         import '@radix-ui/themes/styles.css';
 
         export default ThemeProvider = ({ children }) => {
-            return (
-                <Theme>
-                    {children}
-                </Theme>
-            ) 
+          return (
+            <Theme>
+              {children}
+            </Theme>
+          ) 
         }`,
     },
   },
@@ -56,11 +71,51 @@ const preview: Preview = {
 
 export default preview;
 ```
+</details>
+
+<details>
+  <summary>Story configuration (recommended)</summary>
+
+```ts
+const meta: Meta<typeof Button> = {
+  title: "Example/Button",
+  component: Button,
+  parameters: {
+    codesandbox: {
+     /**
+       * To import all components used within each story in CodeSandbox, provide all necessary packages and modules. See example below:
+       * 
+       * @example 
+       * ```js
+       * import Provider from "@myscope/mypackage";
+       * import { Button } from "@radix-ui/themes";
+       * import "@radix-ui/themes/styles.css";
+       * ```
+       * 
+       * @note You cannot use local modules or packages since this story runs in an isolated environment (sandbox) inside CodeSandbox. As such, the sandbox doesn't have access to your file system.
+       */
+      mapComponent: {
+        // Example of default imports
+        "@myscope/mypackage": "Provider",
+
+        // Example of named functions
+        "@radix-ui/themes": ["Button"],
+
+        // Example of static imports
+        "@radix-ui/themes/styles.css": true,
+      },
+    },
+  },
+};
+```
+
+</details>
+
+<br />
 
 Make sure to provide the necessary values for workspaceId and any additional dependencies or providers required for your specific setup.
 
-## Usage
-Once configured, you can use the addon within your Storybook environment to export stories to CodeSandbox effortlessly.
+
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
