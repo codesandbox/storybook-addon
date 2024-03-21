@@ -23,7 +23,7 @@ type CSBParameters =
        * Key/value mapping of components to import in the sandbox
        * @optional
        */
-      mapComponent?: Record<string, string[]>;
+      mapComponent?: Record<string, string[] | string | true>;
 
       /**
        * List of dependencies to install in the sandbox
@@ -59,7 +59,6 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
   /**
    * Options
    */
-
   const options = {
     activeFile: "/App.js",
     workspaceId: codesandboxParameters?.workspaceId,
@@ -79,7 +78,13 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
        */
       let imports = ``;
       for (const [key, value] of Object.entries(options.mapComponent)) {
-        imports += `import { ${value.join(", ")} } from '${key}';\n`;
+        if (Array.isArray(value)) {
+          imports += `import { ${value.join(", ")} } from '${key}';\n`;
+        } else if (value === true) {
+          imports += `import '${key}';\n`;
+        } else if (typeof value === "string") {
+          imports += `import ${value} from '${key}';\n`;
+        }
       }
 
       /**

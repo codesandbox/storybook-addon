@@ -45,6 +45,7 @@ const preview: Preview = {
        */
       dependencies: {
         "@radix-ui/themes": "latest",
+        "@myscope/mypackage": "1.0.0",
       },
 
       /**
