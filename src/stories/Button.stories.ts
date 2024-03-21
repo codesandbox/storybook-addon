@@ -19,7 +19,9 @@ const meta: Meta<typeof Button> = {
   parameters: {
     codesandbox: {
       mapComponent: {
+        "@myscope/mypackage": "Provider",
         "@radix-ui/themes": ["Button"],
+        "@radix-ui/themes/styles.css": true,
       },
     },
   },
