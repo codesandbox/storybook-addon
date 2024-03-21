@@ -27,16 +27,19 @@ const preview: Preview = {
   parameters: {
     codesandbox: {
       /**
-       * CodeSandbox workspace id where the sandbox will be created.
        * @required
+       * CodeSandbox workspace id where the sandbox will be created.
        */
       workspaceId: CUSTOM_WORKSPACE_ID,
 
       /**
-       * List of dependencies to install in the sandbox
        * @optional
+       * Dependencies list be installed in the sandbox. 
        * 
-       * TODO: not local components, but published packages
+       * @note You cannot use local modules or packages since
+       * this story runs in an isolated environment (sandbox)
+       * inside CodeSandbox. As such, the sandbox doesn't have
+       * access to your file system.
        *
        * Example:
        */
@@ -45,15 +48,12 @@ const preview: Preview = {
       },
 
       /**
-       * All required providers to run the sandbox properly, such as
-       * themes, i18n, store, and so on.
-       * 
-       * 
-       * TODO: use the depednencies described above
-       * 
        * @optional
-       *
-       * Example:
+       * All required providers to run the sandbox properly, 
+       * such as themes, i18n, store, and so on.
+       * 
+       * @note Remember to use only the dependencies listed above. 
+       * @example
        */
       provider: `import { Theme } from "@radix-ui/themes";
         import '@radix-ui/themes/styles.css';
@@ -77,22 +77,28 @@ export default preview;
   <summary>Story configuration (recommended)</summary>
 
 ```ts
+import type { Meta, StoryObj } from "@storybook/react";
+
 const meta: Meta<typeof Button> = {
   title: "Example/Button",
   component: Button,
   parameters: {
     codesandbox: {
      /**
-       * To import all components used within each story in CodeSandbox, provide all necessary packages and modules. See example below:
+       * To import all components used within each story in 
+       * CodeSandbox, provide all necessary packages and modules.
        * 
-       * @example 
+       * See example below:
        * ```js
        * import Provider from "@myscope/mypackage";
        * import { Button } from "@radix-ui/themes";
        * import "@radix-ui/themes/styles.css";
        * ```
        * 
-       * @note You cannot use local modules or packages since this story runs in an isolated environment (sandbox) inside CodeSandbox. As such, the sandbox doesn't have access to your file system.
+       * @note You cannot use local modules or packages since
+       * this story runs in an isolated environment (sandbox)
+       * inside CodeSandbox. As such, the sandbox doesn't have
+       * access to your file system.
        */
       mapComponent: {
         // Example of default imports
@@ -114,8 +120,6 @@ const meta: Meta<typeof Button> = {
 <br />
 
 Make sure to provide the necessary values for workspaceId and any additional dependencies or providers required for your specific setup.
-
-
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
