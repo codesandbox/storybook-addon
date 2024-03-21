@@ -34,7 +34,7 @@ const preview: Preview = {
 
       /**
        * @optional
-       * Dependencies list be installed in the sandbox. 
+       * Dependencies list to be installed in the sandbox. 
        * 
        * @note You cannot use local modules or packages since
        * this story runs in an isolated environment (sandbox)
@@ -54,7 +54,8 @@ const preview: Preview = {
        * such as themes, i18n, store, and so on.
        * 
        * @note Remember to use only the dependencies listed above. 
-       * @example
+       * 
+       * Example:
        */
       provider: `import { Theme } from "@radix-ui/themes";
         import '@radix-ui/themes/styles.css';
@@ -89,17 +90,14 @@ const meta: Meta<typeof Button> = {
        * To import all components used within each story in 
        * CodeSandbox, provide all necessary packages and modules.
        * 
-       * See example below:
+       * Given the following story:
        * ```js
        * import Provider from "@myscope/mypackage";
        * import { Button } from "@radix-ui/themes";
        * import "@radix-ui/themes/styles.css";
        * ```
        * 
-       * @note You cannot use local modules or packages since
-       * this story runs in an isolated environment (sandbox)
-       * inside CodeSandbox. As such, the sandbox doesn't have
-       * access to your file system.
+       * You need to map all imports to the following:
        */
       mapComponent: {
         // Example of default imports
@@ -111,6 +109,13 @@ const meta: Meta<typeof Button> = {
         // Example of static imports
         "@radix-ui/themes/styles.css": true,
       },
+
+      /**
+       * @note You cannot use local modules or packages since
+       * this story runs in an isolated environment (sandbox)
+       * inside CodeSandbox. As such, the sandbox doesn't have
+       * access to your file system.
+       */
     },
   },
 };
