@@ -125,3 +125,8 @@ Make sure to provide the necessary values for workspaceId and any additional dep
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
 - Verify the correctness of the dependencies and providers listed in the configuration to ensure the sandbox runs smoothly.
+
+## Roadmap
+
+- [ ] Suppport TypeScript
+- [ ] Introduce more templates support (static, vue, angular...)
