@@ -6,7 +6,8 @@
 
 [![Edit in CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/github/codesandbox/storybook-addon)
 
-The `@codesandbox/storybook-addon` is a Storybook addon that facilitates exporting the current story to CodeSandbox. It offers support for private dependencies, workspaces, and more.
+The `@codesandbox/storybook-addon` is a Storybook addon that allows users accessing a story-book page to export the code from the story as a CodeSandbox Sandbox.
+Sandboxes will always be created within the same workspace providing a closed-circuit feedback system. The add-on also provides support for private dependencies.
 
 ## Usage
 
