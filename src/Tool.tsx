@@ -115,7 +115,7 @@ return children
                 "react-scripts": "^5.0.0",
                 ...options.dependencies,
               },
-              main: "/index.js",
+              main: "/src/index.js",
             },
             null,
             2,
