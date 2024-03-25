@@ -44,13 +44,12 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 }: {
   api: API;
 }) {
+  const { getCurrentStoryData, addNotification } = useStorybookApi();
+  const storyData = getCurrentStoryData();
+  const codesandboxParameters: CSBParameters = useParameter("codesandbox");
+
   const [storySource, setStorySource] = useState();
   const [loading, setLoading] = useState(false);
-  const { getCurrentStoryData, addNotification } = useStorybookApi();
-
-  const storyData = getCurrentStoryData();
-
-  let codesandboxParameters: CSBParameters = useParameter("codesandbox");
 
   useEffect(function getStorySourceCode() {
     api
@@ -58,23 +57,23 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
   }, []);
 
-  /**
-   * Options
-   */
-  const options = {
-    activeFile: "/App.js",
-    mapComponent: codesandboxParameters?.mapComponent ?? {},
-    dependencies: codesandboxParameters?.dependencies ?? {},
-    provider:
-      codesandboxParameters?.provider ??
-      `export default GenericProvider = ({ children }) => {
-  return children
-}`,
-  };
-
   async function createSandbox() {
     try {
       setLoading(true);
+
+      /**
+       * Options
+       */
+      const options = {
+        activeFile: "/App.js",
+        mapComponent: codesandboxParameters?.mapComponent ?? {},
+        dependencies: codesandboxParameters?.dependencies ?? {},
+        provider:
+          codesandboxParameters?.provider ??
+          `export default GenericProvider = ({ children }) => {
+  return children
+}`,
+      };
 
       /**
        * Parse story imports
