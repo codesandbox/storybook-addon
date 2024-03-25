@@ -2,7 +2,7 @@ import React from "react";
 
 import type { Preview } from "@storybook/react";
 import { Theme } from "@radix-ui/themes";
-
+console.log(import.meta);
 const preview: Preview = {
   parameters: {
     codesandbox: {
@@ -12,7 +12,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      workspaceAPIKey: import.meta.CSB_API_KEY,
+      workspaceAPIKey: import.meta.env.VITE_CSB_API_KEY,
 
       /**
        * List of dependencies to install in the sandbox

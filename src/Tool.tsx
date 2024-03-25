@@ -169,6 +169,8 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
     } catch (error) {
       setLoading(false);
       console.error(error);
+
+      throw error;
     }
   }
 
