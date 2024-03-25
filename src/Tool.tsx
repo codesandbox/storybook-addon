@@ -93,21 +93,38 @@ return children
        * File: combine & prettify them
        */
       const files = {
-        "/package.json": {
-          code: JSON.stringify({
-            dependencies: {
-              react: "^18.0.0",
-              "react-dom": "^18.0.0",
-              "react-scripts": "^5.0.0",
-              ...options.dependencies,
-            },
-            main: "/index.js",
-          }),
+        "public/index.html": {
+          code: `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+      </head>
+      <body>
+        <div id="root"></div>
+      </body>
+    </html>`,
         },
-        "/provider.js": {
+        "package.json": {
+          code: JSON.stringify(
+            {
+              dependencies: {
+                react: "^18.0.0",
+                "react-dom": "^18.0.0",
+                "react-scripts": "^5.0.0",
+                ...options.dependencies,
+              },
+              main: "/index.js",
+            },
+            null,
+            2,
+          ),
+        },
+        "src/provider.js": {
           code: options.provider,
         },
-        "/index.js": {
+        "src/index.js": {
           code: `import React, { StrictMode } from "react";
   import { createRoot } from "react-dom/client";
   import GenericProvider from "./provider";
@@ -124,7 +141,7 @@ return children
   );
   `,
         },
-        "/App.js": {
+        "src/App.js": {
           code: `
   ${imports}
   export default App = () => {
@@ -134,7 +151,7 @@ return children
       };
 
       const prettifiedFiles: SandpackBundlerFiles = {};
-      const ignoredFileExtension = ["json"];
+      const ignoredFileExtension = ["json", "html", "md"];
 
       for (const [key, value] of Object.entries(files)) {
         if (ignoredFileExtension.includes(key.split(".").pop())) {
@@ -168,7 +185,7 @@ return children
       const data: { data: { alias: string } } = await response.json();
 
       window.open(
-        `https://codesandbox.io/p/sandbox/${data.data.alias}`,
+        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js`,
         "_blank",
       );
 
