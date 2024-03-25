@@ -1,6 +1,6 @@
 {
   "name": "@codesandbox/storybook-addon",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "CSB",
   "keywords": [
     "storybook-addons"
@@ -10,7 +10,7 @@
     "url": "github.com"
   },
   "type": "module",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "CodeSandbox <danilo@codesandbox.io>",
   "exports": {
     ".": {
