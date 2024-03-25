@@ -57,23 +57,23 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       .on(SNIPPET_RENDERED, ({ source }) => setStorySource(source));
   }, []);
 
+  /**
+   * Options
+   */
+  const options = {
+    activeFile: "/App.js",
+    mapComponent: codesandboxParameters?.mapComponent ?? {},
+    dependencies: codesandboxParameters?.dependencies ?? {},
+    provider:
+      codesandboxParameters?.provider ??
+      `export default GenericProvider = ({ children }) => {
+return children
+}`,
+  };
+
   async function createSandbox() {
     try {
       setLoading(true);
-
-      /**
-       * Options
-       */
-      const options = {
-        activeFile: "/App.js",
-        mapComponent: codesandboxParameters?.mapComponent ?? {},
-        dependencies: codesandboxParameters?.dependencies ?? {},
-        provider:
-          codesandboxParameters?.provider ??
-          `export default GenericProvider = ({ children }) => {
-  return children
-}`,
-      };
 
       /**
        * Parse story imports
