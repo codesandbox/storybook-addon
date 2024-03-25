@@ -7,10 +7,12 @@ const preview: Preview = {
   parameters: {
     codesandbox: {
       /**
-       * CodeSandbox workspace id where sandbox will be created.
        * @required
+       * Workspace API key from codesandbox.io/t/permissions.
+       * This sandbox is created inside the given workspace
+       * and can be shared with team members.
        */
-      workspaceId: "foo",
+      workspaceAPIKey: import.meta.env.VITE_CSB_API_KEY,
 
       /**
        * List of dependencies to install in the sandbox

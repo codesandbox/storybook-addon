@@ -31,9 +31,11 @@ const preview: Preview = {
     codesandbox: {
       /**
        * @required
-       * CodeSandbox workspace id where the sandbox will be created.
+       * Workspace API key from codesandbox.io/t/permissions.
+       * This sandbox is created inside the given workspace
+       * and can be shared with team members.
        */
-      workspaceId: CUSTOM_WORKSPACE_ID,
+      workspaceAPIKey: WORKSPACE_API_KEY,
 
       /**
        * @optional
