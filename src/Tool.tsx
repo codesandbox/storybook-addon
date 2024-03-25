@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { API, useParameter } from "@storybook/manager-api";
 import { Button } from "@storybook/components";
-import LZString from "lz-string";
 import { BoxIcon } from "@storybook/icons";
 import prettier from "prettier/standalone";
 import prettierPluginBabel from "prettier/plugins/babel";
@@ -17,7 +16,7 @@ type CSBParameters =
        * CodeSandbox workspace id where sandbox will be created.
        * @required
        */
-      workspaceId: string;
+      workspaceAPIKey: string;
 
       /**
        * Key/value mapping of components to import in the sandbox
@@ -45,10 +44,9 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 }: {
   api: API;
 }) {
-  const formRef = React.useRef<HTMLFormElement>(null);
   const [storySource, setStorySource] = useState();
+  const [loading, setLoading] = useState(false);
   let codesandboxParameters: CSBParameters = useParameter("codesandbox");
-  const [deferredFiles, setDeferredFiles] = useState<SandpackBundlerFiles>({});
 
   useEffect(function getStorySourceCode() {
     api
@@ -61,7 +59,6 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
    */
   const options = {
     activeFile: "/App.js",
-    workspaceId: codesandboxParameters?.workspaceId,
     mapComponent: codesandboxParameters?.mapComponent ?? {},
     dependencies: codesandboxParameters?.dependencies ?? {},
     provider:
@@ -71,8 +68,10 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 }`,
   };
 
-  useEffect(() => {
-    (async function mountFiles() {
+  async function createSandbox() {
+    try {
+      setLoading(true);
+
       /**
        * Parse story imports
        */
@@ -150,23 +149,32 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
         };
       }
 
-      setDeferredFiles(prettifiedFiles);
-    })();
-  }, [storySource]);
+      const response = await fetch("https://api.codesandbox.io/sandbox", {
+        method: "POST",
+        body: JSON.stringify({
+          files: prettifiedFiles,
+        }),
+        headers: {
+          Authorization: `Bearer ${codesandboxParameters.workspaceAPIKey}`,
+          "Content-Type": "application/json",
+          "X-CSB-API-Version": "2023-07-01",
+        },
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  }
 
   if (!codesandboxParameters || !storySource) {
     return;
   }
-
-  const params = getFileParameters(deferredFiles);
-
-  const searchParams = new URLSearchParams({
-    parameters: params,
-    query: new URLSearchParams({
-      file: options.activeFile,
-      utm_medium: "storybook",
-    }).toString(),
-  });
 
   return (
     <Button
@@ -177,65 +185,20 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
           ? "Open in CodeSandbox"
           : "Missing component mapping"
       }
-      onClick={(): void => formRef.current?.submit()}
+      onClick={createSandbox}
     >
-      <form
-        action={CSB_URL}
-        method="POST"
-        style={{ display: "none" }}
-        target="_blank"
-        ref={formRef}
-      >
-        {Array.from(
-          searchParams as unknown as Array<[string, string]>,
-          ([key, value]) => (
-            <input key={key} name={key} type="hidden" value={value} />
-          ),
-        )}
-      </form>
       <BoxIcon />
-      Open in CodeSandbox
+
+      {loading ? "Loading..." : "Open in CodeSandbox"}
     </Button>
   );
 });
 
-const CSB_URL = "https://codesandbox.io/api/v1/sandboxes/define";
-
-export interface SandpackBundlerFile {
+interface SandpackBundlerFile {
   code: string;
   hidden?: boolean;
   active?: boolean;
   readOnly?: boolean;
 }
 
-export type SandpackBundlerFiles = Record<string, SandpackBundlerFile>;
-const getFileParameters = (files: SandpackBundlerFiles): string => {
-  type NormalizedFiles = Record<
-    string,
-    {
-      content: string;
-      isBinary: boolean;
-    }
-  >;
-
-  const normalizedFiles = Object.keys(files).reduce((prev, next) => {
-    const fileName = next.replace("/", "");
-    const value = {
-      content: files[next].code,
-      isBinary: false,
-    };
-
-    return { ...prev, [fileName]: value };
-  }, {} as NormalizedFiles);
-
-  return getParameters({
-    files: normalizedFiles,
-  });
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getParameters = (parameters: Record<string, any>): string =>
-  LZString.compressToBase64(JSON.stringify(parameters))
-    .replace(/\+/g, "-") // Convert '+' to '-'
-    .replace(/\//g, "_") // Convert '/' to '_'
-    .replace(/=+$/, ""); /* Remove ending '='*/
+type SandpackBundlerFiles = Record<string, SandpackBundlerFile>;
