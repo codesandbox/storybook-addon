@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { API, useParameter } from "@storybook/manager-api";
+import { API, useParameter, useStorybookApi } from "@storybook/manager-api";
 import { Button } from "@storybook/components";
 import { BoxIcon } from "@storybook/icons";
 import prettier from "prettier/standalone";
@@ -46,6 +46,10 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 }) {
   const [storySource, setStorySource] = useState();
   const [loading, setLoading] = useState(false);
+  const { getCurrentStoryData, addNotification } = useStorybookApi();
+
+  const storyData = getCurrentStoryData();
+
   let codesandboxParameters: CSBParameters = useParameter("codesandbox");
 
   useEffect(function getStorySourceCode() {
@@ -152,6 +156,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       const response = await fetch("https://api.codesandbox.io/sandbox", {
         method: "POST",
         body: JSON.stringify({
+          title: `${storyData.title} - Storybook`,
           files: prettifiedFiles,
         }),
         headers: {
@@ -161,14 +166,25 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
         },
       });
 
-      const data = await response.json();
+      const data: { data: { alias: string } } = await response.json();
 
-      console.log(data);
+      window.open(
+        `https://codesandbox.io/p/sandbox/${data.data.alias}`,
+        "_blank",
+      );
 
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.error(error);
+
+      addNotification({
+        content: {
+          headline: "CodeSandbox: something went wrong",
+          subHeadline: error.message,
+        },
+        id: "csb-error",
+        link: "",
+      });
 
       throw error;
     }

@@ -2,7 +2,7 @@ import React from "react";
 
 import type { Preview } from "@storybook/react";
 import { Theme } from "@radix-ui/themes";
-console.log(import.meta);
+
 const preview: Preview = {
   parameters: {
     codesandbox: {
