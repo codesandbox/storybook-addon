@@ -14,7 +14,6 @@ type CSBParameters =
   | {
       apiToken: string;
       mapComponent?: Record<string, string[] | string | true>;
-      fallbackImport: string;
       dependencies?: Record<string, string>;
       provider?: string;
     }
