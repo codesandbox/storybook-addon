@@ -27,10 +27,7 @@ jobs:
         run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Ensure registry access
-        run: npm whoami
-
+          
       - name: Pre-release
         run: npm run prepublish
 
