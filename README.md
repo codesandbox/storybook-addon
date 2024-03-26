@@ -15,6 +15,16 @@ Once configured, you can use the "Open in CodeSandbox" button within your Storyb
 
 ## Configuration
 
+```js
+// .storybook/main.js
+
+module.exports = {
+  // ...
+  addons: ['@codesandbox/storybook-addon'],
+};
+
+```
+
 <details>
   <summary>Storybook configuration (required)</summary>
 
@@ -24,6 +34,7 @@ To run the addon, you'll need to configure it in your Storybook's `.storybook/pr
 
 ```js
 // .storybook/preview.js
+
 import { Theme } from "@radix-ui/themes";
 
 const preview: Preview = {
