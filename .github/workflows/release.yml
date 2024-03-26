@@ -1,6 +1,6 @@
 name: Release
 
-on:
+on: "push"
   push:
     branches:
       - main
@@ -23,9 +23,14 @@ jobs:
       - name: Install dependencies
         run: npm install --ignore-scripts
 
-      - name: Create Release
+      - name: Authenticate with Registry
+        run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Pre-release
+        run: npm run prepublish
+
+      - name: Publish
         run: |
-          npm run release
+          npm publish
