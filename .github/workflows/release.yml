@@ -23,9 +23,12 @@ jobs:
       - name: Install dependencies
         run: npm install --ignore-scripts
 
+      - name: Pre-release
+        run: npm run prepublish
+
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm release
+          npm publish
