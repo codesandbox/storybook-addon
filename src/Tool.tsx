@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { API, useParameter, useStorybookApi } from "@storybook/manager-api";
-import { Button } from "@storybook/components";
 import { BoxIcon } from "@storybook/icons";
+import { IconButton } from "@storybook/components";
 import prettier from "prettier/standalone";
 import prettierPluginBabel from "prettier/plugins/babel";
 import prettierPluginEstree from "prettier/plugins/estree";
@@ -195,7 +195,9 @@ return children
   }
 
   return (
-    <Button
+    <IconButton
+      style={{ gap: ".5em" }}
+      type="button"
       key={TOOL_ID}
       disabled={!options.mapComponent}
       title={
@@ -208,7 +210,7 @@ return children
       <BoxIcon />
 
       {loading ? "Loading..." : "Open in CodeSandbox"}
-    </Button>
+    </IconButton>
   );
 });
 
