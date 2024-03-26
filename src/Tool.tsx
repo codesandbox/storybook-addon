@@ -150,7 +150,7 @@ return children
       }
 
       if (!codesandboxParameters.apiToken) {
-        throw new Error("Missing apiToken");
+        throw new Error("Missing `apiToken` property");
       }
 
       const response = await fetch("https://api.codesandbox.io/sandbox", {

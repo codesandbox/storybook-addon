@@ -14,6 +14,9 @@ dependencies:
   '@storybook/icons':
     specifier: ^1.2.9
     version: 1.2.9(react-dom@18.2.0)(react@18.2.0)
+  prettier:
+    specifier: ^3.2.5
+    version: 3.2.5
 
 devDependencies:
   '@radix-ui/themes':
@@ -85,9 +88,6 @@ devDependencies:
   npm-run-all:
     specifier: ^4.1.5
     version: 4.1.5
-  prettier:
-    specifier: ^3.2.5
-    version: 3.2.5
   prompts:
     specifier: ^2.4.2
     version: 2.4.2
@@ -7917,7 +7917,6 @@ packages:
     resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
     engines: {node: '>=14'}
     hasBin: true
-    dev: true
 
   /pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
