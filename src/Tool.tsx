@@ -150,6 +150,10 @@ return children
         };
       }
 
+      if (!codesandboxParameters.apiToken) {
+        throw new Error("Missing apiToken");
+      }
+
       const response = await fetch("https://api.codesandbox.io/sandbox", {
         method: "POST",
         body: JSON.stringify({

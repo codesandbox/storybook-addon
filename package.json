@@ -98,6 +98,7 @@
   },
   "dependencies": {
     "@storybook/addon-docs": "^7.6.17",
-    "@storybook/addon-storysource": "^7.6.17"
+    "@storybook/addon-storysource": "^7.6.17",
+    "@storybook/icons": "^1.2.9"
   }
 }

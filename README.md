@@ -46,7 +46,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      apiToken: WORKSPACE_API_KEY,
+      apiToken: process.env.VITE_CODESANDBOX_KEY, // For Vite use `import.meta.env.VITE_CODESANDBOX_KEY`
 
       /**
        * @optional
