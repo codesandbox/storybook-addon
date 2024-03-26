@@ -12,7 +12,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      workspaceAPIKey: import.meta.env.VITE_CSB_API_KEY,
+      apiToken: import.meta.env.VITE_CSB_API_KEY,
 
       /**
        * List of dependencies to install in the sandbox

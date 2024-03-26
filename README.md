@@ -35,7 +35,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      workspaceAPIKey: WORKSPACE_API_KEY,
+      apiToken: WORKSPACE_API_KEY,
 
       /**
        * @optional
@@ -130,7 +130,7 @@ const meta: Meta<typeof Button> = {
 
 <br />
 
-Make sure to provide the necessary values for [`workspaceAPIKey`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
+Make sure to provide the necessary values for [`apiToken`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
