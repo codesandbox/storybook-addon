@@ -1,9 +1,9 @@
 name: Release
 
 on: "push"
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   release:
