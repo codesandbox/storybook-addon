@@ -12,31 +12,10 @@ const SNIPPET_RENDERED = `storybook/docs/snippet-rendered`;
 
 type CSBParameters =
   | {
-      /**
-       * @required
-       * Workspace API key from codesandbox.io/t/permissions.
-       * This sandbox is created inside the given workspace
-       * and can be shared with team members.
-       */
       apiToken: string;
-
-      /**
-       * Key/value mapping of components to import in the sandbox
-       * @optional
-       */
       mapComponent?: Record<string, string[] | string | true>;
-
-      /**
-       * List of dependencies to install in the sandbox
-       * @optional
-       */
+      fallbackImport: string;
       dependencies?: Record<string, string>;
-
-      /**
-       * All required providers to run the sandbox properly, such as
-       * themes, i18n, store, and so on.
-       * @optional
-       */
       provider?: string;
     }
   | undefined;
