@@ -12,29 +12,9 @@ const SNIPPET_RENDERED = `storybook/docs/snippet-rendered`;
 
 type CSBParameters =
   | {
-      /**
-       * CodeSandbox workspace id where sandbox will be created.
-       * @required
-       */
-      workspaceAPIKey: string;
-
-      /**
-       * Key/value mapping of components to import in the sandbox
-       * @optional
-       */
+      apiToken: string;
       mapComponent?: Record<string, string[] | string | true>;
-
-      /**
-       * List of dependencies to install in the sandbox
-       * @optional
-       */
       dependencies?: Record<string, string>;
-
-      /**
-       * All required providers to run the sandbox properly, such as
-       * themes, i18n, store, and so on.
-       * @optional
-       */
       provider?: string;
     }
   | undefined;
@@ -169,6 +149,10 @@ return children
         };
       }
 
+      if (!codesandboxParameters.apiToken) {
+        throw new Error("Missing `apiToken` property");
+      }
+
       const response = await fetch("https://api.codesandbox.io/sandbox", {
         method: "POST",
         body: JSON.stringify({
@@ -176,7 +160,7 @@ return children
           files: prettifiedFiles,
         }),
         headers: {
-          Authorization: `Bearer ${codesandboxParameters.workspaceAPIKey}`,
+          Authorization: `Bearer ${codesandboxParameters.apiToken}`,
           "Content-Type": "application/json",
           "X-CSB-API-Version": "2023-07-01",
         },

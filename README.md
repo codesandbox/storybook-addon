@@ -15,6 +15,16 @@ Once configured, you can use the "Open in CodeSandbox" button within your Storyb
 
 ## Configuration
 
+```js
+// .storybook/main.js
+
+module.exports = {
+  // ...
+  addons: ['@codesandbox/storybook-addon'],
+};
+
+```
+
 <details>
   <summary>Storybook configuration (required)</summary>
 
@@ -24,6 +34,7 @@ To run the addon, you'll need to configure it in your Storybook's `.storybook/pr
 
 ```js
 // .storybook/preview.js
+
 import { Theme } from "@radix-ui/themes";
 
 const preview: Preview = {
@@ -35,7 +46,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      workspaceAPIKey: WORKSPACE_API_KEY,
+      apiToken: process.env.VITE_CODESANDBOX_KEY, // For Vite use `import.meta.env.VITE_CODESANDBOX_KEY`
 
       /**
        * @optional
@@ -130,7 +141,7 @@ const meta: Meta<typeof Button> = {
 
 <br />
 
-Make sure to provide the necessary values for workspaceId and any additional dependencies or providers required for your specific setup.
+Make sure to provide the necessary values for [`apiToken`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
