@@ -130,7 +130,7 @@ const meta: Meta<typeof Button> = {
 
 <br />
 
-Make sure to provide the necessary values for workspaceId and any additional dependencies or providers required for your specific setup.
+Make sure to provide the necessary values for [`workspaceAPIKey`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
