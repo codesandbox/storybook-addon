@@ -86,10 +86,6 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 
       const imports = parseImports(importsMap);
 
-      console.log(imports);
-
-      return;
-
       /**
        * File: combine & prettify them
        */
