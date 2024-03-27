@@ -5,14 +5,15 @@ import { IconButton } from "@storybook/components";
 import prettier from "prettier/standalone";
 import prettierPluginBabel from "prettier/plugins/babel";
 import prettierPluginEstree from "prettier/plugins/estree";
+import { SNIPPET_RENDERED } from "@storybook/docs-tools";
 
 import { TOOL_ID } from "./constants";
+import { parseFileTree, parseImports } from "./utils";
 
-const SNIPPET_RENDERED = `storybook/docs/snippet-rendered`;
-
-type CSBParameters =
+export type CSBParameters =
   | {
       apiToken: string;
+      fallbackImport?: string;
       mapComponent?: Record<string, string[] | string | true>;
       dependencies?: Record<string, string>;
       provider?: string;
@@ -47,7 +48,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
     provider:
       codesandboxParameters?.provider ??
       `export default GenericProvider = ({ children }) => {
-return children
+  return children
 }`,
   };
 
@@ -55,19 +56,35 @@ return children
     try {
       setLoading(true);
 
-      /**
-       * Parse story imports
-       */
-      let imports = ``;
-      for (const [key, value] of Object.entries(options.mapComponent)) {
-        if (Array.isArray(value)) {
-          imports += `import { ${value.join(", ")} } from '${key}';\n`;
-        } else if (value === true) {
-          imports += `import '${key}';\n`;
-        } else if (typeof value === "string") {
-          imports += `import ${value} from '${key}';\n`;
+      const { fallbackImport } = codesandboxParameters;
+      const importsMap = options.mapComponent;
+
+      // If fallbackImport is provided, add it to importsMap
+      if (fallbackImport) {
+        const componentNames = parseFileTree(storySource);
+
+        // Check if fallbackImport is already in importsMap
+        if (importsMap[fallbackImport]) {
+          const currentFallbackImport = importsMap[fallbackImport];
+
+          // Merge them
+          if (Array.isArray(currentFallbackImport)) {
+            importsMap[fallbackImport] = [
+              ...new Set([...componentNames, ...currentFallbackImport]),
+            ];
+          } else {
+            // Invalid use case
+            throw new Error(
+              "Invalid fallback import usage. The `import` used inside `mapComponent` and also used as `fallbackImport` must be an array.",
+            );
+          }
+        } else {
+          // Just added (0-config case)
+          importsMap[fallbackImport] = componentNames;
         }
       }
+
+      const imports = parseImports(importsMap);
 
       /**
        * File: combine & prettify them

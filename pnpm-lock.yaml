@@ -11,6 +11,9 @@ dependencies:
   '@storybook/addon-storysource':
     specifier: ^7.6.17
     version: 7.6.17
+  '@storybook/docs-tools':
+    specifier: ^7.6.17
+    version: 7.6.17
   '@storybook/icons':
     specifier: ^1.2.9
     version: 1.2.9(react-dom@18.2.0)(react@18.2.0)

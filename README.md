@@ -35,8 +35,6 @@ To run the addon, you'll need to configure it in your Storybook's `.storybook/pr
 ```js
 // .storybook/preview.js
 
-import { Theme } from "@radix-ui/themes";
-
 const preview: Preview = {
   parameters: {
     codesandbox: {
@@ -49,7 +47,7 @@ const preview: Preview = {
       apiToken: process.env.VITE_CODESANDBOX_KEY, // For Vite use `import.meta.env.VITE_CODESANDBOX_KEY`
 
       /**
-       * @optional
+       * @required
        * Dependencies list to be installed in the sandbox. 
        * 
        * @note You cannot use local modules or packages since
@@ -63,6 +61,16 @@ const preview: Preview = {
         "@radix-ui/themes": "latest",
         "@myscope/mypackage": "1.0.0",
       },
+
+      /**
+       * @required
+       * CodeSandbox will try to import all components by default from
+       * the given package, in case `mapComponent` property is not provided.
+       * 
+       * This property is useful when your components imports are predictable 
+       * and come from a single package and entry point. 
+       */
+      fallbackImport: "@radix-ui/themes",
 
       /**
        * @optional
@@ -142,6 +150,8 @@ const meta: Meta<typeof Button> = {
 <br />
 
 Make sure to provide the necessary values for [`apiToken`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
+
+For now, this addon only support [Component Story Format (CSF)](Component Story Format (CSF)) stories format.
 
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
