@@ -33,4 +33,14 @@ export const Small: StoryObj = {
   },
 };
 
+export const JSX = (props) => (
+  <Text size="1" {...props}>
+    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+    the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown
+    fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
+    The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+    the lazy dog. The quick brown fox jumps over the lazy dog.
+  </Text>
+);
+
 export default meta;

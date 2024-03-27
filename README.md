@@ -153,6 +153,8 @@ const meta: Meta<typeof Button> = {
 
 Make sure to provide the necessary values for [`apiToken`](https://codesandbox.io/t/permissions) and any additional dependencies or providers required for your specific setup.
 
+For now, this addon only support [Component Story Format (CSF)](Component Story Format (CSF)) stories format.
+
 ## Additional Notes
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
 - Verify the correctness of the dependencies and providers listed in the configuration to ensure the sandbox runs smoothly.
