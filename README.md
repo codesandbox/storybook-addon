@@ -49,7 +49,7 @@ const preview: Preview = {
       apiToken: process.env.VITE_CODESANDBOX_KEY, // For Vite use `import.meta.env.VITE_CODESANDBOX_KEY`
 
       /**
-       * @optional
+       * @required
        * Dependencies list to be installed in the sandbox. 
        * 
        * @note You cannot use local modules or packages since
@@ -65,7 +65,7 @@ const preview: Preview = {
       },
 
       /**
-       * @optional
+       * @required
        * CodeSandbox will try to import all components by default from
        * the given package, in case `mapComponent` property is not provided.
        * 
