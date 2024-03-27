@@ -35,8 +35,6 @@ To run the addon, you'll need to configure it in your Storybook's `.storybook/pr
 ```js
 // .storybook/preview.js
 
-import { Theme } from "@radix-ui/themes";
-
 const preview: Preview = {
   parameters: {
     codesandbox: {
