@@ -188,7 +188,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       const data: { data: { alias: string } } = await response.json();
 
       window.open(
-        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js`,
+        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js&utm-source=storybook-addon`,
         "_blank",
       );
 
