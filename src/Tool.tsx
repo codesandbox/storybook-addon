@@ -13,7 +13,7 @@ import { parseFileTree, parseImports } from "./utils";
 export type CSBParameters =
   | {
       apiToken: string;
-      privacy: "private" | "public";
+      privacy?: "private" | "public";
       fallbackImport?: string;
       mapComponent?: Record<string, string[] | string | true>;
       dependencies?: Record<string, string>;

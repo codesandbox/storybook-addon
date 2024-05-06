@@ -43,16 +43,7 @@ const preview: Preview = {
        * This sandbox is created inside the given workspace
        * and can be shared with team members.
        */
-      apiToken: <api-token>,
-
-      /**
-       * @required
-       * The default visibility of the new sandboxes inside the workspace.
-       *
-       * @note Use `private` if there is a private registry or private NPM
-       * configured in your workspace.
-       */
-      privacy: "private" | "public",
+      apiToken: "<api-token>",
 
       /**
        * @required
@@ -79,6 +70,15 @@ const preview: Preview = {
        * and come from a single package and entry point.
        */
       fallbackImport: "@radix-ui/themes",
+
+      /**
+       * @optional
+       * The default visibility of the new sandboxes inside the workspace.
+       *
+       * @note Use `private` if there is a private registry or private NPM
+       * configured in your workspace.
+       */
+      privacy: "private" | "public",
 
       /**
        * @optional
