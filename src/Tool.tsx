@@ -13,6 +13,7 @@ import { parseFileTree, parseImports } from "./utils";
 export type CSBParameters =
   | {
       apiToken: string;
+      privacy: "private" | "public";
       fallbackImport?: string;
       mapComponent?: Record<string, string[] | string | true>;
       dependencies?: Record<string, string>;
@@ -175,6 +176,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
         body: JSON.stringify({
           title: `${storyData.title} - Storybook`,
           files: prettifiedFiles,
+          privacy: codesandboxParameters.privacy === "public" ? 0 : 2,
         }),
         headers: {
           Authorization: `Bearer ${codesandboxParameters.apiToken}`,

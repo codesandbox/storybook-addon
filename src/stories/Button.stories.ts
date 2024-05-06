@@ -18,6 +18,7 @@ const meta: Meta<typeof Button> = {
   },
   parameters: {
     codesandbox: {
+      privacy: "private",
       mapComponent: {
         "@myscope/mypackage": "Provider",
         "@radix-ui/themes": ["Button"],

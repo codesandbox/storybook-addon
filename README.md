@@ -20,9 +20,8 @@ Once configured, you can use the "Open in CodeSandbox" button within your Storyb
 
 module.exports = {
   // ...
-  addons: ['@codesandbox/storybook-addon'],
+  addons: ["@codesandbox/storybook-addon"],
 };
-
 ```
 
 <details>
@@ -48,8 +47,17 @@ const preview: Preview = {
 
       /**
        * @required
-       * Dependencies list to be installed in the sandbox. 
-       * 
+       * The default visibility of the new sandboxes inside the workspace.
+       *
+       * @note Use `private` if there is a private registry or private NPM
+       * configured in your workspace.
+       */
+      privacy: "private" | "public",
+
+      /**
+       * @required
+       * Dependencies list to be installed in the sandbox.
+       *
        * @note You cannot use local modules or packages since
        * this story runs in an isolated environment (sandbox)
        * inside CodeSandbox. As such, the sandbox doesn't have
@@ -66,19 +74,19 @@ const preview: Preview = {
        * @required
        * CodeSandbox will try to import all components by default from
        * the given package, in case `mapComponent` property is not provided.
-       * 
-       * This property is useful when your components imports are predictable 
-       * and come from a single package and entry point. 
+       *
+       * This property is useful when your components imports are predictable
+       * and come from a single package and entry point.
        */
       fallbackImport: "@radix-ui/themes",
 
       /**
        * @optional
-       * All required providers to run the sandbox properly, 
+       * All required providers to run the sandbox properly,
        * such as themes, i18n, store, and so on.
-       * 
-       * @note Remember to use only the dependencies listed above. 
-       * 
+       *
+       * @note Remember to use only the dependencies listed above.
+       *
        * Example:
        */
       provider: `import { Theme } from "@radix-ui/themes";
@@ -89,7 +97,7 @@ const preview: Preview = {
             <Theme>
               {children}
             </Theme>
-          ) 
+          )
         }`,
     },
   },
@@ -97,12 +105,13 @@ const preview: Preview = {
 
 export default preview;
 ```
+
 </details>
 
 <details>
   <summary>Story configuration (recommended)</summary>
 
-```ts
+````ts
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Button> = {
@@ -110,17 +119,17 @@ const meta: Meta<typeof Button> = {
   component: Button,
   parameters: {
     codesandbox: {
-     /**
-       * To import all components used within each story in 
+      /**
+       * To import all components used within each story in
        * CodeSandbox, provide all necessary packages and modules.
-       * 
+       *
        * Given the following story:
        * ```js
        * import Provider from "@myscope/mypackage";
        * import { Button } from "@radix-ui/themes";
        * import "@radix-ui/themes/styles.css";
        * ```
-       * 
+       *
        * You need to map all imports to the following:
        */
       mapComponent: {
@@ -143,7 +152,7 @@ const meta: Meta<typeof Button> = {
     },
   },
 };
-```
+````
 
 </details>
 
@@ -154,6 +163,7 @@ Make sure to provide the necessary values for [`apiToken`](https://codesandbox.i
 For now, this addon only support [Component Story Format (CSF)](Component Story Format (CSF)) stories format.
 
 ## Additional Notes
+
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
 - Verify the correctness of the dependencies and providers listed in the configuration to ensure the sandbox runs smoothly.
 
