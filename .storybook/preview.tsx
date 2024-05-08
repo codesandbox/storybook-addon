@@ -10,6 +10,8 @@ const preview: Preview = {
 
       fallbackImport: "@radix-ui/themes",
 
+      privacy: "public",
+
       dependencies: {
         "@radix-ui/themes": "latest",
       },
