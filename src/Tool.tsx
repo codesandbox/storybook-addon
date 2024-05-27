@@ -199,11 +199,14 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       addNotification({
         content: {
           headline: "CodeSandbox: something went wrong",
-          subHeadline: error.message,
+          subHeadline:
+            "Make sure you have a valid API token, or check the console for more details.",
         },
         id: "csb-error",
         link: "",
       });
+
+      console.error(error.message);
 
       throw error;
     }
