@@ -60,6 +60,8 @@ return children
         storySource,
       });
 
+      console.log(files);
+
       if (!codesandboxParameters.apiToken) {
         throw new Error("Missing `apiToken` property");
       }
