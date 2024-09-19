@@ -149,5 +149,5 @@ Make sure to provide the necessary values for [`apiToken`](https://codesandbox.i
 
 ## Roadmap
 
-- [ ] Suppport TypeScript
+- [ ] Support TypeScript
 - [ ] Introduce more templates support (static, vue, angular...)
