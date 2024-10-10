@@ -16,6 +16,8 @@ type CSBParameters =
       mapComponent?: Record<string, string[] | string | true>;
       dependencies?: Record<string, string>;
       provider?: string;
+      sandboxId: string;
+      files: Record<string, string>;
     }
   | undefined;
 

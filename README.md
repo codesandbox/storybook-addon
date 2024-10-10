@@ -50,6 +50,29 @@ const preview: Preview = {
 
       /**
        * @optional
+       * If a given sandbox id is provided, all other options
+       * will be ignored and the addon will open the sandbox.
+       */
+      sandboxId: "SANDBOX-ID",
+
+      /**
+       * @optional
+       * Pass custom files/modules into the sandbox. These files
+       * will be added to the file system of the sandbox and can 
+       * be imported by other files
+       */
+      files: {
+        // Example:
+        "index.js": `
+export const foo = () => console.log("Hello World");`
+        "App.js": `
+import { foo } from "./index.js"; 
+
+foo();`,
+      },
+
+      /**
+       * @optional
        * Dependencies list to be installed in the sandbox. 
        * 
        * @note You cannot use local modules or packages since
