@@ -51,10 +51,18 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       `export default GenericProvider = ({ children }) => {
 return children
 }`,
+    files: codesandboxParameters?.files ?? {},
+    sandboxId: codesandboxParameters?.sandboxId,
   };
 
   async function createSandbox() {
     try {
+      if (options.sandboxId) {
+        window.open(`https://codesandbox.io/s/${options.sandboxId}`, "_blank");
+
+        return;
+      }
+
       setLoading(true);
 
       /**
@@ -75,6 +83,7 @@ return children
        * File: combine & prettify them
        */
       const files = {
+        ...standardizeFilesFormat(options.files),
         "public/index.html": {
           code: `<!DOCTYPE html>
     <html lang="en">
@@ -224,3 +233,20 @@ interface SandpackBundlerFile {
 }
 
 type SandpackBundlerFiles = Record<string, SandpackBundlerFile>;
+
+function standardizeFilesFormat(
+  files: Record<string, string>,
+): SandpackBundlerFiles {
+  return Object.entries(files).reduce((acc, [key, value]) => {
+    if (typeof value === "string") {
+      return {
+        ...acc,
+        [key]: {
+          code: value,
+        },
+      };
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
+}
