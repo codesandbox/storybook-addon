@@ -73,6 +73,14 @@ foo();`,
 
       /**
        * @optional
+       * Template preset to be used in the sandbox. This will 
+       * determine the initial setup of the sandbox, such as
+       * bundler, dependencies, and files.
+       */
+      template: "react" | "angular", // Defaults to "react"
+
+      /**
+       * @optional
        * Dependencies list to be installed in the sandbox. 
        * 
        * @note You cannot use local modules or packages since
@@ -170,7 +178,3 @@ Make sure to provide the necessary values for [`apiToken`](https://codesandbox.i
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
 - Verify the correctness of the dependencies and providers listed in the configuration to ensure the sandbox runs smoothly.
 
-## Roadmap
-
-- [ ] Suppport TypeScript
-- [ ] Introduce more templates support (static, vue, angular...)
