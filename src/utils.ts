@@ -69,7 +69,6 @@ async function createAngularTemplate(
   props: Props,
 ): Promise<SandpackBundlerFiles> {
   const files = {
-    ...standardizeFilesFormat(props.files),
     "/src/app/app.component.css": {
       code: `body {
   font-family: sans-serif;
@@ -171,9 +170,9 @@ platformBrowserDynamic()
         main: "/src/main.ts",
       }),
     },
-  };
 
-  debugger;
+    ...standardizeFilesFormat(props.files),
+  };
 
   return files;
 }
@@ -182,7 +181,6 @@ async function createReactTemplate(
   props: Props,
 ): Promise<SandpackBundlerFiles> {
   const files = {
-    ...standardizeFilesFormat(props.files),
     "public/index.html": {
       code: `<!DOCTYPE html>
 <html lang="en">
@@ -236,6 +234,7 @@ export default App = () => {
 return ${props.storySource};
 }`,
     },
+    ...standardizeFilesFormat(props.files),
   };
 
   const prettifiedFiles: SandpackBundlerFiles = {};

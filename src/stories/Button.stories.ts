@@ -18,6 +18,11 @@ const meta: Meta<typeof Button> = {
   },
   parameters: {
     codesandbox: {
+      template: "angular",
+      files: {
+        "/src/app/app.component.css": `button {
+        }`,
+      },
       mapComponent: {
         "@myscope/mypackage": "Provider",
         "@radix-ui/themes": ["Button"],
