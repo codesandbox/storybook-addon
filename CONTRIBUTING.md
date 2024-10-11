@@ -14,8 +14,10 @@ The file outlines the structure of the addon's codebase:
 
 In order to test the addon, you should run two commands:
 
-1. `npm run build`: to build the CodeSandbox addon (re-run on every change);
-2. `npm run storybook`: to open the Storybook instance with the new addon (reload every change);
+1. `pnpm run build`: to build the CodeSandbox addon (re-run on every change);
+2. `pnpm run storybook`: to open the Storybook instance with the new addon (reload every change);
+
+Or, just use `pnpm run start`
 
 ## Deployment
 

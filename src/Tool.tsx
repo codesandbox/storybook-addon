@@ -4,12 +4,14 @@ import { BoxIcon } from "@storybook/icons";
 import { IconButton } from "@storybook/components";
 
 import { TOOL_ID } from "./constants";
-import { convertSandboxToTemplate, parseImports } from "./utils";
+import { convertSandboxToTemplate, parseFileTree, parseImports } from "./utils";
 const SNIPPET_RENDERED = `storybook/docs/snippet-rendered`;
 
 export type CSBParameters =
   | {
       apiToken: string;
+      privacy?: "private" | "public";
+      fallbackImport?: string;
       mapComponent?: Record<string, string[] | string | true>;
       dependencies?: Record<string, string>;
       provider?: string;
@@ -47,7 +49,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
     provider:
       codesandboxParameters?.provider ??
       `export default GenericProvider = ({ children }) => {
-return children
+  return children
 }`,
     files: codesandboxParameters?.files ?? {},
     apiToken: codesandboxParameters?.apiToken,
@@ -67,9 +69,39 @@ return children
 
       setLoading(true);
 
+      const { fallbackImport } = codesandboxParameters;
+      const importsMap = options.mapComponent;
+
+      // If fallbackImport is provided, add it to importsMap
+      if (fallbackImport) {
+        const componentNames = parseFileTree(storySource);
+
+        // Check if fallbackImport is already in importsMap
+        if (importsMap[fallbackImport]) {
+          const currentFallbackImport = importsMap[fallbackImport];
+
+          // Merge them
+          if (Array.isArray(currentFallbackImport)) {
+            importsMap[fallbackImport] = [
+              ...new Set([...componentNames, ...currentFallbackImport]),
+            ];
+          } else {
+            // Invalid use case
+            throw new Error(
+              "Invalid fallback import usage. The `import` used inside `mapComponent` and also used as `fallbackImport` must be an array.",
+            );
+          }
+        } else {
+          // Just added (0-config case)
+          importsMap[fallbackImport] = componentNames;
+        }
+      }
+
+      const imports = parseImports(importsMap);
+
       const files = await convertSandboxToTemplate({
         ...options,
-        imports: parseImports(options.mapComponent),
+        imports,
         storySource,
       });
 
@@ -82,6 +114,7 @@ return children
         body: JSON.stringify({
           title: `${storyData.title} - Storybook`,
           files,
+          privacy: codesandboxParameters.privacy === "public" ? 0 : 2,
         }),
         headers: {
           Authorization: `Bearer ${codesandboxParameters.apiToken}`,
@@ -93,7 +126,7 @@ return children
       const data: { data: { alias: string } } = await response.json();
 
       window.open(
-        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js`,
+        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js&utm-source=storybook-addon`,
         "_blank",
       );
 
@@ -104,11 +137,14 @@ return children
       addNotification({
         content: {
           headline: "CodeSandbox: something went wrong",
-          subHeadline: error.message,
+          subHeadline:
+            "Make sure you have a valid API token, or check the console for more details.",
         },
         id: "csb-error",
         link: "",
       });
+
+      console.error(error.message);
 
       throw error;
     }

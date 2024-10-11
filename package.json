@@ -1,6 +1,6 @@
 {
   "name": "@codesandbox/storybook-addon",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "CSB",
   "keywords": [
     "storybook-addons"
@@ -29,6 +29,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "start": "pnpm run build && pnpm run storybook",
     "clean": "rimraf ./dist",
     "prebuild": "npm run clean",
     "build": "tsup",
@@ -96,6 +97,7 @@
   "dependencies": {
     "@storybook/addon-docs": "^7.6.17",
     "@storybook/addon-storysource": "^7.6.17",
+    "@storybook/docs-tools": "^7.6.17",
     "@storybook/icons": "^1.2.9",
     "prettier": "^3.2.5"
   }

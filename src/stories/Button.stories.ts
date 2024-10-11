@@ -23,6 +23,7 @@ const meta: Meta<typeof Button> = {
         "/src/app/app.component.css": `button {
         }`,
       },
+      privacy: "private",
       mapComponent: {
         "@myscope/mypackage": "Provider",
         "@radix-ui/themes": ["Button"],
