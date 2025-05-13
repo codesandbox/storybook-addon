@@ -55,7 +55,7 @@ const preview: Preview = {
       /**
        * @optional
        * Pass custom files/modules into the sandbox. These files
-       * will be added to the file system of the sandbox and can 
+       * will be added to the file system of the sandbox and can
        * be imported by other files
        */
       files: {
@@ -63,14 +63,14 @@ const preview: Preview = {
         "index.js": `
 export const foo = () => console.log("Hello World");`
         "App.js": `
-import { foo } from "./index.js"; 
+import { foo } from "./index.js";
 
 foo();`,
       },
 
       /**
        * @optional
-       * Template preset to be used in the sandbox. This will 
+       * Template preset to be used in the sandbox. This will
        * determine the initial setup of the sandbox, such as
        * bundler, dependencies, and files.
        */
@@ -78,8 +78,8 @@ foo();`,
 
       /**
        * @optional
-       * Dependencies list to be installed in the sandbox. 
-       * 
+       * Dependencies list to be installed in the sandbox.
+       *
        * @note You cannot use local modules or packages since
        * this story runs in an isolated environment (sandbox)
        * inside CodeSandbox. As such, the sandbox doesn't have
@@ -130,6 +130,14 @@ foo();`,
             </Theme>
           )
         }`,
+
+      /**
+       * @optional
+       * Query parameters to be passed to the sandbox url that is opened.
+       */
+      queryParams: {
+        "file": "/src/App.js",
+      },
     },
   },
 };
@@ -197,4 +205,3 @@ For now, this addon only support [Component Story Format (CSF)](Component Story 
 
 - Ensure that you have proper permissions and access rights to the CodeSandbox workspace specified in the configuration.
 - Verify the correctness of the dependencies and providers listed in the configuration to ensure the sandbox runs smoothly.
-

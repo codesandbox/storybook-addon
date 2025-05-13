@@ -130,10 +130,10 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
       const csbUrl = new URL(
         `https://codesandbox.io/p/sandbox/${data.data.alias}`,
       );
+      csbUrl.searchParams.set("file", "/src/App.js");
       for (const [key, value] of Object.entries(options.queryParams)) {
         csbUrl.searchParams.set(key, value);
       }
-      csbUrl.searchParams.set("file", "/src/App.js");
       csbUrl.searchParams.set("utm-source", "storybook-addon");
 
       window.open(csbUrl.toString(), "_blank");
