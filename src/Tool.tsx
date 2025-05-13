@@ -18,6 +18,7 @@ export type CSBParameters =
       sandboxId: string;
       files: Record<string, string>;
       template?: "react" | "angular";
+      queryParams?: Record<string, string>;
     }
   | undefined;
 
@@ -54,6 +55,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
     files: codesandboxParameters?.files ?? {},
     apiToken: codesandboxParameters?.apiToken,
     sandboxId: codesandboxParameters?.sandboxId,
+    queryParams: codesandboxParameters?.queryParams ?? {},
   };
 
   async function createSandbox() {
@@ -125,10 +127,16 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 
       const data: { data: { alias: string } } = await response.json();
 
-      window.open(
-        `https://codesandbox.io/p/sandbox/${data.data.alias}?file=/src/App.js&utm-source=storybook-addon`,
-        "_blank",
+      const csbUrl = new URL(
+        `https://codesandbox.io/p/sandbox/${data.data.alias}`,
       );
+      for (const [key, value] of Object.entries(options.queryParams)) {
+        csbUrl.searchParams.set(key, value);
+      }
+      csbUrl.searchParams.set("file", "/src/App.js");
+      csbUrl.searchParams.set("utm-source", "storybook-addon");
+
+      window.open(csbUrl.toString(), "_blank");
 
       setLoading(false);
     } catch (error) {
