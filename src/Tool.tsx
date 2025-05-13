@@ -22,6 +22,19 @@ export type CSBParameters =
     }
   | undefined;
 
+function createUrl(
+  sandboxId: string,
+  queryParams: Record<string, string>,
+): URL {
+  const url = new URL(`https://codesandbox.io/p/sandbox/${sandboxId}`);
+  url.searchParams.set("file", "/src/App.js");
+  for (const [key, value] of Object.entries(queryParams)) {
+    url.searchParams.set(key, value);
+  }
+  url.searchParams.set("utm-source", "storybook-addon");
+  return url;
+}
+
 export const CodeSandboxTool = memo(function MyAddonSelector({
   api,
 }: {
@@ -62,7 +75,7 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
     try {
       if (options.sandboxId) {
         window.open(
-          `https://codesandbox.io/p/sandbox/${options.sandboxId}`,
+          createUrl(options.sandboxId, options.queryParams).toString(),
           "_blank",
         );
 
@@ -127,16 +140,10 @@ export const CodeSandboxTool = memo(function MyAddonSelector({
 
       const data: { data: { alias: string } } = await response.json();
 
-      const csbUrl = new URL(
-        `https://codesandbox.io/p/sandbox/${data.data.alias}`,
+      window.open(
+        createUrl(data.data.alias, options.queryParams).toString(),
+        "_blank",
       );
-      csbUrl.searchParams.set("file", "/src/App.js");
-      for (const [key, value] of Object.entries(options.queryParams)) {
-        csbUrl.searchParams.set(key, value);
-      }
-      csbUrl.searchParams.set("utm-source", "storybook-addon");
-
-      window.open(csbUrl.toString(), "_blank");
 
       setLoading(false);
     } catch (error) {
